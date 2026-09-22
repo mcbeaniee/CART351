@@ -1,3 +1,3 @@
 # CART351
 
-#### CART 351 coursework repository repo.
+#### CART 351 coursework repository.
