@@ -68,7 +68,8 @@ print("Expected output: 51")
 
 first_line = "It was the best of times."
 second_line = "It was the worst of times."
-print(first_line, second_line) # your code here!
+comboString = len(first_line+second_line) # adds string lengths
+print(comboString)
 
 #------------------------------------------------------------------------
 
@@ -81,7 +82,8 @@ print("Expected output: 25")
 # called "aStringSentence." Use the .find() method.
 
 aStringSentence = "Did the cat jump out the window yesterday?"
-print() # your code here!
+stringSentenceFind = aStringSentence.find("window") # evaluates to "window"
+print(stringSentenceFind)  
 
 #------------------------------------------------------------------------
 
@@ -94,6 +96,7 @@ print("Expected output: someone who has spent too much time")
 # the beginning and end of the string. Use the .strip() method.
 
 partLy = "     someone who has spent too much time    \n"
+partLyCut = partLy.strip()
 print(partLy)
 
 #------------------------------------------------------------------------
@@ -107,7 +110,8 @@ print("Expected output: SOMEONE WHO HAS SPENT TOO MUCH TIME")
 # the string, with all whitespace removed, and with all letters converted to
 # uppercase. Use the .upper() method.
 
-print() # your code here!
+partLyUpper = partLyCut.upper()
+print(partLyUpper) # uppercased
 
 #------------------------------------------------------------------------
 
@@ -118,7 +122,7 @@ print("Expected output: p")
 # Task 9: Modify the value assigned to variable "offset" below so that
 # the following "print" statement displays the letter "p".
 
-offset = 0
+offset = 1
 print("apple"[offset])
 
 #------------------------------------------------------------------------
@@ -130,8 +134,8 @@ print("Expected output: jump")
 # Task 10: Modify the values assigned to variables "start" and "end"
 # below so that the following "print" statement displays the word "jump".
 
-start = 0
-end = 10
+start = 12
+end = 16
 aStringSentenceAgain = "Did the cat jump out the window yesterday?"
 print(aStringSentenceAgain[start:end])
 
@@ -144,7 +148,7 @@ print("Expected output: 100")
 # Task 11: Modify the statement below so that it displays the number 100.
 # Do this using the int() function (hint: you need to use it twice).
 
-print("19" + "81")
+print(int("19") + int("81"))
 #------------------------------------------------------------------------
 
 print("\n------")
@@ -157,6 +161,8 @@ print("Expected output: test_var is less than 200")
 test_var = 90
 if test_var > 200:	
 	print("test_var is greater than 200!")
+else:
+	print("test_var is less than 200")
 #------------------------------------------------------------------------
 
 print("\n------")
@@ -167,7 +173,7 @@ print("Expected output: the condition test passed")
 # 'the condition test passed'. Do not change the values of the varaibles.
 test_var_three = 400
 test_var_two = 800
-if test_var_three > 200 and test_var_two < 400:	
+if test_var_three > 200 and test_var_two > 400:	
 	print("the condition test passed")
 else:
 	print("the condition test not passed")
@@ -182,7 +188,7 @@ print("Expected output: alpha")
 # that it prints "alpha" (instead of "beta").
 
 greek = ["alpha", "beta", "gamma", "delta", "epsilon"]
-print(greek[1])
+print(greek[0])
 
 #------------------------------------------------------------------------
 
@@ -194,8 +200,8 @@ print("Expected output: ['beta', 'gamma', 'delta']")
 # the print statement displays the second through fourth items in the list
 # "greek" (defined above).
 
-start = 0
-finish = 6
+start = 1
+finish = 5
 print(greek[start:finish])
 
 #------------------------------------------------------------------------
