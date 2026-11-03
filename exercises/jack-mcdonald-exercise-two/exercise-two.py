@@ -31,7 +31,6 @@ def getSearchCriteria():
             description= description, # data item description of the image
             imgPath = imgFromNasa # image link from dictionary
         )
-    pass
 
 #*************************************************
 # #Task-2: GET REQUEST
@@ -41,8 +40,17 @@ def t2():
 #*************************************************
 @app.route("/getSearchCriteria_adv")
 def getSearchCriteria_adv():
- #fill me in :
- return render_template("t2.html",images=encodedImageLinks)
+    #fill me in :
+    encodedImageLinks = [] # empty image link list
+    formInput = (request.args.get("searchCriteria")) # requests input from the form URL
+    imageURL = f"https://images-api.nasa.gov/search?q={formInput}&media_type=image" # format the string for the URL with the form input + API +media type
+    encodedURL = requests.get(imageURL) # get the URL from the NASA API
+    listURL = encodedURL.json()['collection']['items'][0] # convert the URL to JSON format and access the dictionary
+    singleImage = listURL['links'][0]['href'] # retrieves the image link in the dictionary
+
+    singleImage = singleImage.replace(' ', '%20') # replace the empty space to be url encoded
+    encodedImageLinks.append(singleImage) # append the image link to the list
+    return render_template("t2.html",images=encodedImageLinks)
 pass
 #*************************************************
 
