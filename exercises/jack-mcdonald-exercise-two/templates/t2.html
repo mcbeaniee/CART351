@@ -1,0 +1,30 @@
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block content %}
+<section class = "intro">
+    <h3>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h3>
+</section>
+<section class = "searchCriteria">
+    <!-- stuff goes in here -->
+        <div class = "formContainer">
+        <fieldset>
+            <h3>Search the NASA Image Library:</h3>
+            <form action="{{url_for('getSearchCriteria')}}" method="GET">
+            <p>
+                <input type="text" name="searchCriteria">
+            </p>
+            <p>
+                <input type="submit" value="Search">
+            </p>
+        </form>
+        </div>
+        <div>
+            {% if have_results == True %}
+            <h3 style="text-align: center; padding: 10px;">Results for {{request.args.get("searchCriteria")}}</h3> <!--Jinja in-line to find the search criteria and show it at the top-->
+                <img src="{{imgPath}}" alt="NASA Image" style="max-width: 40%; max-height: 40%; display: block; margin: 0 auto;"> 
+                <p style="text-align: center; padding: 10px;">Image Description: {{description}}</p>
+            {% endif %}
+        </div>
+</section>
+{% endblock %}
