@@ -9,21 +9,21 @@
     <!-- stuff goes in here -->
         <div class = "formContainer">
         <fieldset>
-            <h3>Search the NASA Image Library:</h3>
-            <form action="{{url_for('getSearchCriteria')}}" method="GET">
-            <p>
+            <h3 style="text-align: center;">Search the NASA Image Library:</h3>
+            <form action="{{url_for('getSearchCriteria_adv')}}" method="GET">
+            <p style="text-align: center;">
                 <input type="text" name="searchCriteria">
             </p>
-            <p>
+            <p style="text-align: center;">
                 <input type="submit" value="Search">
             </p>
         </form>
         </div>
         <div>
-            {% if have_results == True %}
             <h3 style="text-align: center; padding: 10px;">Results for {{request.args.get("searchCriteria")}}</h3> <!--Jinja in-line to find the search criteria and show it at the top-->
-            
-            {% endif %}
+            {% for image in images %}
+                <img src="{{image}}" style="max-width: 40%; max-height: 40%; display: block; margin: 0 auto;"> 
+            {% endfor %}
         </div>
 </section>
 {% endblock %}
