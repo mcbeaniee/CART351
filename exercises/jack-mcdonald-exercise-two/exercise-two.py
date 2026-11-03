@@ -18,15 +18,18 @@ def t1():
 def getSearchCriteria():
     #fill me in :
     formInput = (request.args.get("searchCriteria")) # requests input from the form URL
-    imageURL = f"https://images-api.nasa.gov/search/q={formInput}&media_type=image" # format the string for the URL with the form input + API +media type
+    imageURL = f"https://images-api.nasa.gov/search?q={formInput}&media_type=image" # format the string for the URL with the form input + API +media type
     encodedURL = requests.get(imageURL) # get the URL from the NASA API
     imgFromNasa = encodedURL.json() # convert URL into JSON
+    
     #imgFromNasa = imgFromNasa.replace(' ', '%20') # replace the empty space to be url encoded
+    #it works just fine without this line above, but when uncommented it breaks? i'm not sure exactly why. i think it has something to do with the 
+    #.replace method attempting to change string parameters of the JSON.
+
     return render_template("t1.html",
             have_results = True,
             description= imgFromNasa['collection']['items'][0]['data'][0]['description'],
-            imgPath = imgFromNasa['collection']['items'][0]['links'][0]['href']
-                        
+            imgPath = imgFromNasa['collection']['items'][0]['links'][0]['href']     
         )
     pass
 
