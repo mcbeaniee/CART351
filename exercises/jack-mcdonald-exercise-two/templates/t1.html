@@ -1,0 +1,24 @@
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block content %}
+<section class = "intro">
+    <h3>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h3>
+</section>
+<section class = "searchCriteria">
+    <!-- stuff goes in here -->
+        <div class = "formContainer">
+        <fieldset>
+            <h3>NASA Image Search</h3>
+            <form action="/getSearchCriteria" method="get">
+            <p>
+                <label>Input Search Criteria:</label>
+                <input type="text" name="searchCriteria">
+            </p>
+            <p>
+                <input type="submit" value="Search">
+            </p>
+        </form>
+        </div>
+</section>
+{% endblock %}

@@ -1,0 +1,81 @@
+*{
+    margin:0;
+     padding:0;
+}
+
+body{
+    font-family: "Roboto", sans-serif;
+   
+}
+h2{
+
+    font-size:32px;
+    padding:5px;
+    background-color:rgb(14, 181, 232);
+    color: rgb(255,255,255);
+}
+nav{
+    padding-bottom:5px;
+    background-color:rgb(14, 181, 232);
+}
+nav ul{
+    display:flex;
+    justify-content:right;
+  
+}
+nav ul li{
+    width:10%;
+    text-transform: uppercase;
+    text-decoration: none;
+    list-style-type: none;
+
+      
+}
+nav li a{
+text-decoration: none;
+color:rgb(255, 255, 255);
+}
+
+main{
+    margin: 10px;
+     background-color: rgb(229, 236, 245);
+     min-height:calc(82vh);
+}
+
+footer{
+     background-color:rgb(14, 181, 232);
+       min-height:5vh;
+       padding:5px;
+       color: rgb(255,255,255);
+
+}
+
+/**form css**/
+fieldset{
+    width:75%;color:#302e2e;
+    margin:0 auto;margin-top:2%;
+    border:none;font-size:20px;
+}
+
+input[type=text], select {
+  width: 50%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  background-color: #8c06b8;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
