@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask, json,render_template,request,redirect,url_for
 import requests
 app = Flask(__name__)
 
@@ -17,14 +17,17 @@ def t1():
 @app.route("/getSearchCriteria")
 def getSearchCriteria():
     #fill me in :
-    #replace the empty space to be url encoded
-    imgFromNasa = imgFromNasa.replace(' ', '%20')
+    formInput = (request.args.get("searchCriteria")) # requests input from the form URL
+    imageURL = f"https://images-api.nasa.gov/search/q={formInput}&media_type=image" # format the string for the URL with the form input + API +media type
+    encodedURL = requests.get(imageURL) # get the URL from the NASA API
+    imgFromNasa = encodedURL.json() # convert URL into JSON
+    #imgFromNasa = imgFromNasa.replace(' ', '%20') # replace the empty space to be url encoded
     return render_template("t1.html",
-                               have_results = True,
-                               description=description,
-                               imgPath = imgFromNasa
-                                           
-                            )
+            have_results = True,
+            description= imgFromNasa['collection']['items'][0]['data'][0]['description'],
+            imgPath = imgFromNasa['collection']['items'][0]['links'][0]['href']
+                        
+        )
     pass
 
 #*************************************************

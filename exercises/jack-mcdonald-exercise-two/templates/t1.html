@@ -10,7 +10,7 @@
         <div class = "formContainer">
         <fieldset>
             <h3>NASA Image Search</h3>
-            <form action="/getSearchCriteria" method="get">
+            <form action="{{url_for('getSearchCriteria')}}" method="GET">
             <p>
                 <label>Input Search Criteria:</label>
                 <input type="text" name="searchCriteria">
@@ -19,6 +19,13 @@
                 <input type="submit" value="Search">
             </p>
         </form>
+        </div>
+        <div>
+            {% if have_results == True %}
+                <h3>Results:</h3>
+                <p>{{description}}</p>
+                <img src="{{imgPath}}" alt="NASA Image">
+            {% endif %}
         </div>
 </section>
 {% endblock %}
