@@ -1,0 +1,27 @@
+body {
+    background-color: black;
+    
+    font-family: monospace;
+    font-size: 17px;
+    color: white;
+
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+    margin-left: 10px;
+    position: relative;
+}
+
+input {
+    background-color: transparent;
+
+	border: 0px;
+    appearance: none;
+    outline-width: 0;
+	outline: none;
+
+    font-family: monospace;
+    font-size: 17px;
+    color: white;
+}

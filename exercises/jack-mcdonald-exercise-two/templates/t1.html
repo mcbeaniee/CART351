@@ -22,7 +22,7 @@
         <div>
             {% if have_results == True %}
             <h3 style="text-align: center; padding: 10px;">Result for: {{request.args.get("searchCriteria")}}</h3> <!--Jinja in-line to find the search criteria and show it at the top-->
-                <img src="{{imgPath}}" alt="NASA Image" style="max-width: 40%; max-height: 40%; display: block; margin: 0 auto;"> 
+                <img src="{{imgPath}}" style="max-width: 40%; max-height: 40%; display: block; margin: 0 auto;"> 
                 <p style="text-align: center; padding: 10px;">Image Description: {{description}}</p>
             {% endif %}
         </div>
