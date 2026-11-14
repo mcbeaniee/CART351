@@ -1,0 +1,52 @@
+{"menuCommandMessages": [
+    {"name": "help", "content": [
+        "<strong>-------Help - Menu-------</strong><br>",
+        "<span class='command'>help</span> - displays this help menu",
+        "<span class='command'>user create</span> - creates a new user account<br>",
+        "<span class='command'>user login</span> - logs in to an existing user account<br>"
+    ]},
+    {"name": "user login", "content": 
+        "<span> Enter a username:</span><br>"
+    },
+    {"name": "user create", "content": 
+        "<span> Enter a username to create:</span><br>"
+    }
+],
+
+"userCommandMessages": [
+    {"name": "help", "content": [
+        "<strong>-------Help - User Commands-------</strong><br>",
+        "<span class='command'>help</span> - displays this help menu<br>",
+        "<span class='command'>{{request.args.get('username')}} notes</span> - manages notes<br>",
+        "<span class='command'>{{request.args.get('username')}} notes create</span> - creates a new note<br>",
+        "<span class='command'>{{request.args.get('username')}} notes delete</span> - deletes a note<br>",
+        "<span class='command'>{{request.args.get('username')}} notes edit</span> - edits a note<br>",
+        "<span class='command'>{{request.args.get('username')}} notes open</span> - opens a note<br>",
+        "<span class='command'>{{request.args.get('username')}} info</span> - displays user information<br>",
+        "<span class='command'>logout</span> - logs out of the current user account<br>"
+    ]},
+    {"name": "notes", "content": [
+
+    ]},
+    {"name": "notes create", "content": [
+
+    ]},
+    {"name": "notes delete", "content": [
+
+    ]},
+    {"name": "notes edit", "content": [
+
+    ]},
+    {"name": "notes open", "content": [
+
+    ]},
+    {"name": "info", "content": [
+
+    ]},
+    {"name": "logout", "content": [
+
+    ]}
+]
+
+}
+

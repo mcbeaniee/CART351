@@ -1,0 +1,13 @@
+{"admin": [
+    {
+        "username": "admin",
+        "password": "adminpassword",
+        "dateCreated": "2024-06-10",
+        "notes": [
+            {
+                "title": "Welcome Note",
+                "content": "note"
+            }
+        ]
+    }
+]}

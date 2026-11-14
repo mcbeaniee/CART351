@@ -25,3 +25,12 @@ input {
     font-size: 17px;
     color: white;
 }
+
+.output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.bottom {
+    padding-bottom: 120px;
+}
