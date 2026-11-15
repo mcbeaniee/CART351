@@ -1,13 +1,1 @@
-{"admin": [
-    {
-        "username": "admin",
-        "password": "adminpassword",
-        "dateCreated": "2024-06-10",
-        "notes": [
-            {
-                "title": "Welcome Note",
-                "content": "note"
-            }
-        ]
-    }
-]}
+{"users": {"admin": {"password": "adminpassword", "dateCreated": "2024-06-10", "notes": [{"title": "Welcome Note", "content": "note"}]}, "jack": {"password": "jack", "notes": []}, "jack2": {"password": "jack2", "notes": []}}}

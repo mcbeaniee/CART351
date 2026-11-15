@@ -1,7 +1,7 @@
 {"menuCommandMessages": [
     {"name": "help", "content": [
         "<strong>-------Help - Menu-------</strong><br>",
-        "<span class='command'>help</span> - displays this help menu",
+        "<span class='command'>help</span> - displays this help menu<br>",
         "<span class='command'>user create</span> - creates a new user account<br>",
         "<span class='command'>user login</span> - logs in to an existing user account<br>"
     ]},
@@ -25,9 +25,7 @@
         "<span class='command'>{{request.args.get('username')}} info</span> - displays user information<br>",
         "<span class='command'>logout</span> - logs out of the current user account<br>"
     ]},
-    {"name": "notes", "content": [
 
-    ]},
     {"name": "notes create", "content": [
 
     ]},
