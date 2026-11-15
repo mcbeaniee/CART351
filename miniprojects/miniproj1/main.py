@@ -61,5 +61,5 @@ def terminal():
         saveUsers(userData)
 
         # return success message to awaiting js script
-        return f'Note "{notesTitle} successfully created."'
+        return f'Note "{notesTitle}" successfully created.'
 app.run(debug = True)

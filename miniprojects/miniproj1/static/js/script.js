@@ -22,58 +22,55 @@ let tempNoteData = {};
 content.addEventListener('keydown', keypressHandler);
 
 function keypressHandler(event) {
-    if (event.key === 'Enter') {
-        // command from input, trimmed. if notthing, advance terminal
-        const command = content.value.trim();
-        if (!command) return;
-        content.value = '';
+    if (event.key !== 'Enter') return;
+    // command from input, trimmed. if notthing, advance terminal
+    const command = content.value.trim();
+    if (!command) return;
+    content.value = '';
 
-        // runs user commands depending on if the terminal mode (for multi-step commands) is null or not
-        if (terminalMode){
-            handleUserLogin(command);
-            handleUserCreate(command);
-            handleNoteCreate(command);
-            return;
-        }
+    // runs user commands depending on if the terminal mode (for multi-step commands) is null or not
+    if (terminalMode) {
+        handleUserLogin(command);
+        handleUserCreate(command);
+        handleNoteCreate(command);
+        return;
+    }
 
-        // prime user login command, set terminal mode for handleUserLogin function
-        if (command === 'user login'){
-            if (!currentUser){
-                terminalMode = 'LOGIN';
-                displayCommand(command);
-                console.log(terminalMode);
-                return;
-            } // handle edge case for user login command if already logged in
-            else {
-                displayOutput(`You are already logged into ${currentUser}.`);
-            }
-            
+    // switch states for each command (better than if/else chains lol)
+    // sets up terminalMode for login, create, and note functions
+    switch (command) {
+    case 'user login':
+        if (currentUser) {
+            displayOutput(`You are already logged into ${currentUser}.`);
+        } else {
+            terminalMode = 'LOGIN';
+            displayCommand(command);
         }
+        break;
+    
+    // resets all states on user logout
+    case 'user logout':
+        terminalMode = null;
+        currentUser = null;
+        displayCommand(command);
+        break;
+    
+    // prompts terminalMode for user creation
+    case 'user create':
+        terminalMode = 'CREATE';
+        displayCommand(command);
+        break;
 
-        // exit user profile on logout command
-        if (command === 'user logout'){
-            terminalMode = null;
-            currentUser = null;
-            displayCommand(command)
-            return;
+    case 'notes create':
+        if (!currentUser) {
+            displayOutput('Notes may only be created if you are logged in. Log in with user login command.');
+        } else {
+            terminalMode = 'NOTETITLE';
+            displayCommand(command);
         }
-
-        // prime user create command, set terminal mode for handleUserCreate function
-        if (command === 'user create'){
-            terminalMode = 'CREATE';
-            displayCommand(command)
-            return;
-        }
-
-        if (command === 'notes create'){
-            if (!currentUser){
-                displayOutput('Notes may only be created if you are logged in. Log in with user login command.')
-            } else{
-                terminalMode = 'NOTETITLE'
-                displayCommand(command)
-                return;
-            }
-        }
+        break;
+    default:
+        displayCommand(command)
     }
 }
 
