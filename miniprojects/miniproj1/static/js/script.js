@@ -16,6 +16,7 @@ let terminalMode = null;
 // temporary data for multi-step commands
 let tempLoginData = {};
 let tempCreateData = {};
+let tempNoteData = {};
 
 // simulate enter key input submit, runs commands and resets input data
 content.addEventListener('keydown', keypressHandler);
@@ -31,6 +32,7 @@ function keypressHandler(event) {
         if (terminalMode){
             handleUserLogin(command);
             handleUserCreate(command);
+            handleNoteCreate(command);
             return;
         }
 
@@ -62,10 +64,20 @@ function keypressHandler(event) {
             displayCommand(command)
             return;
         }
+
+        if (command === 'notes create'){
+            if (!currentUser){
+                displayOutput('Notes may only be created if you are logged in. Log in with user login command.')
+            } else{
+                terminalMode = 'NOTETITLE'
+                displayCommand(command)
+                return;
+            }
+        }
     }
 }
 
-// Search JSON file for commands depending on the input
+// Search JSON file for commands depending on the input and display them using displayOutput
 function displayCommand(command) {
     // Check if the command is in the list of commands
     if (commands.some(cmd => cmd.name === command)) {
@@ -121,54 +133,121 @@ async function handleUserCreate(input){
             displayOutput(`User ${input} already exists. Try user login or choosing a different username.`)
             terminalMode = null;
             return;
+        } else if (input==="abort"){
+            displayOutput("User create command aborted.")
+            terminalMode = null;
+            return;
         }
 
+        // saves input for temp data, as all data will be passed to the python only once a password is chosen
         tempCreateData.username = input;
         terminalMode = 'CREATEPASSWORD';
         displayOutput('<span>Create user password: </span>');
     } else if (terminalMode==='CREATEPASSWORD'){
         tempCreateData.password = input;
 
-        try{
-            const res = await fetch('/terminal',{
+        // fetch terminal route and try create_user action with username and password (note data is blank and created in the python route)
+        if (input==="abort"){
+            displayOutput("User create command aborted.")
+            terminalMode = null;
+            return;
+        } else {
+            try{
+                const res = await fetch('/terminal',{
+                    method: 'POST',
+                    // wouldn't work without this header, for whatever reason
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({
+                        action: 'create_user',
+                        username: tempCreateData.username,
+                        password: tempCreateData.password
+                    })
+                });
+                
+                // non-server error handler
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    displayOutput(`<span>Error: ${errorText}</span>`);
+                    terminalMode = null;
+                    tempCreateData = {};
+                    return
+                }
+
+                // pull success message from response and output it 
+                const successMessage = await res.text();
+
+                //users[tempCreateData.username] = {
+                //    password: tempCreateData.password,
+                //    notes: []
+                //}; unneeded since python creates blank note data
+                currentUser = tempCreateData.username;
+                displayOutput(successMessage);
+            
+            // server error handler
+            } catch (err){
+                console.log(err);
+                displayOutput(`Server error.`)
+            }
+    
+            // reset modes after sending data to json
+            terminalMode = null;
+            tempCreateData = {};
+        }
+    }
+}
+
+async function handleNoteCreate(input){
+    if (terminalMode === 'NOTETITLE') {
+    tempNoteData.title = input;
+    terminalMode = 'NOTECONTENT';
+    displayOutput('Enter note content:');
+    return;
+    } 
+    else if (terminalMode === 'NOTECONTENT') {
+        tempNoteData.content = input;
+
+        try {
+            const res = await fetch('/terminal', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json' 
                 },
                 body: JSON.stringify({
-                    action: 'create_user',
-                    username: tempCreateData.username,
-                    password: tempCreateData.password
+                    action: 'create_note',
+                    username: currentUser,
+                    title: tempNoteData.title,
+                    content: tempNoteData.content
                 })
             });
 
+            // non-server error handler
             if (!res.ok) {
                 const errorText = await res.text();
                 displayOutput(`<span>Error: ${errorText}</span>`);
                 terminalMode = null;
                 tempCreateData = {};
                 return
-            }
+            } 
 
+            // pull success message from response and output it 
             const successMessage = await res.text();
-
-            //users[tempCreateData.username] = {
-            //    password: tempCreateData.password,
-            //    notes: []
-            //};
-            currentUser = tempCreateData.username;
             displayOutput(successMessage);
-
+        
+        // server error handler
         } catch (err){
             console.log(err);
             displayOutput(`Server error.`)
         }
 
+        // reset modes after sending data to json
         terminalMode = null;
         tempCreateData = {};
     }
 }
 
+// get document element for terminal and add inputs to it
 function displayOutput(output) {
     const outputElement = document.createElement('p');
     outputElement.innerHTML = output;

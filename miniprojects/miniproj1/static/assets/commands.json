@@ -27,7 +27,7 @@
     ]},
 
     {"name": "notes create", "content": [
-
+        "<span class='command'>Enter note title:</span><br>"
     ]},
     {"name": "notes delete", "content": [
 

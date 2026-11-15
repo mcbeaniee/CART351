@@ -13,6 +13,11 @@ body {
     position: relative;
 }
 
+.command {
+    font-style:oblique;
+    color:lightgreen
+}
+
 input {
     background-color: transparent;
 
