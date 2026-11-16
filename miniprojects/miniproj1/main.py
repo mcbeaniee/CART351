@@ -44,7 +44,7 @@ def terminal():
         saveUsers(userData)
 
         # return message to be displayed in the output by js
-        return 'User registered and logged in.'
+        return f'User <span class="command">{username}</span> registered and logged in.'
 
     # 2. NOTECREATE action, requests data from json and adds notes to the current user's file
     if action == 'create_note':

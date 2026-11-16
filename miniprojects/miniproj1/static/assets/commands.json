@@ -3,46 +3,61 @@
         "<strong>-------Help - Menu-------</strong><br>",
         "<span class='command'>help</span> - displays this help menu<br>",
         "<span class='command'>user create</span> - creates a new user account<br>",
-        "<span class='command'>user login</span> - logs in to an existing user account<br>"
+        "<span class='command'>user login</span> - logs in to an existing user account<br>",
+        "<span class='command'>user list</span> - lists all users<br>",
+        "<span class='command'>user delete</span> - deletes a user<br>"
     ]},
     {"name": "user login", "content": 
         "<span> Enter a username:</span><br>"
     },
     {"name": "user create", "content": 
         "<span> Enter a username to create:</span><br>"
-    }
+    },
+    {
+    "name": "user list", "content": 
+        "<span> List of all users:</span><br>"
+    },
+    {
+    "name": "user delete", "content": 
+        "<span> Enter a username to delete:</span><br>"
+    },
+    {
+    "name": "welcome", "content": [ 
+        "<span>---- Welcome to Jack's terminal! ----</span><br>",
+        "Use the<span class='command'> help</span> command to see what commands are available to you.<br>",
+        "<span>Created by Jack McDonald for CART 351 - Networks and Navigation with Sabine</span>"
+    ]}
 ],
 
 "userCommandMessages": [
     {"name": "help", "content": [
-        "<strong>-------Help - User Commands-------</strong><br>",
+        "<strong class='command'>-------Help - User Commands-------</strong><br>",
         "<span class='command'>help</span> - displays this help menu<br>",
-        "<span class='command'>{{request.args.get('username')}} notes</span> - manages notes<br>",
-        "<span class='command'>{{request.args.get('username')}} notes create</span> - creates a new note<br>",
-        "<span class='command'>{{request.args.get('username')}} notes delete</span> - deletes a note<br>",
-        "<span class='command'>{{request.args.get('username')}} notes edit</span> - edits a note<br>",
-        "<span class='command'>{{request.args.get('username')}} notes open</span> - opens a note<br>",
-        "<span class='command'>{{request.args.get('username')}} info</span> - displays user information<br>",
+        "<span class='command'>notes create</span> - creates a new note<br>",
+        "<span class='command'>notes delete</span> - deletes a note<br>",
+        "<span class='command'>notes edit</span> - edits a note<br>",
+        "<span class='command'>notes list</span> - lists all notes for this user<br>",
+        "<span class='command'>info</span> - displays user information<br>",
         "<span class='command'>logout</span> - logs out of the current user account<br>"
     ]},
 
     {"name": "notes create", "content": [
-        "<span class='command'>Enter note title:</span><br>"
+        "<span>Enter note title:</span><br>"
     ]},
     {"name": "notes delete", "content": [
-
+        "<span  >Which note would you like to delete?</span><br>"
     ]},
     {"name": "notes edit", "content": [
-
+        "<span  >Enter a note to edit:</span><br>"
     ]},
-    {"name": "notes open", "content": [
-
+    {"name": "notes list", "content": [
+        "<span  >Listing notes...</span><br>"
     ]},
     {"name": "info", "content": [
-
+        "<span  >Enter note title:</span><br>"
     ]},
     {"name": "logout", "content": [
-
+        "<span  >Enter note title:</span><br>"
     ]}
 ]
 

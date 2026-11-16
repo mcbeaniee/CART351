@@ -2,7 +2,6 @@
     "users": {
         "admin": {
             "password": "adminpassword",
-            "dateCreated": "2024-06-10",
             "notes": [
                 {
                     "title": "Welcome Note",
@@ -11,8 +10,16 @@
                 {
                     "title": "helloooo",
                     "content": "hellloooooooooooooooooooooo"
+                },
+                {
+                    "title": "aidan is gay",
+                    "content": "aidan's REALLY gay"
                 }
             ]
+        },
+        "jackkkk": {
+            "password": "jackkkkk",
+            "notes": []
         }
     }
 }

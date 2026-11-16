@@ -17,9 +17,25 @@ let terminalMode = null;
 let tempLoginData = {};
 let tempCreateData = {};
 let tempNoteData = {};
+let tempDeleteData = {};
+
+let commandRepeat = `<span class='command'>${content.value}: </span><br>`;
 
 // simulate enter key input submit, runs commands and resets input data
 content.addEventListener('keydown', keypressHandler);
+
+function runWelcomeCommandOnLoad(){
+    displayCommand('welcome');
+}
+
+function ScrollToDirection(direction) {
+    if (direction === 'top') {
+        window.scrollTo(top, 0);
+    }
+    if (direction === 'bottom') {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+}
 
 function keypressHandler(event) {
     if (event.key !== 'Enter') return;
@@ -33,6 +49,8 @@ function keypressHandler(event) {
         handleUserLogin(command);
         handleUserCreate(command);
         handleNoteCreate(command);
+        handleNoteDelete(command);
+        handleUserDelete(command);
         return;
     }
 
@@ -63,12 +81,49 @@ function keypressHandler(event) {
 
     case 'notes create':
         if (!currentUser) {
-            displayOutput('Notes may only be created if you are logged in. Log in with user login command.');
+            displayOutput('Notes may only be created if you are logged in. Log in with <span class="command">user login</span> command.');
         } else {
             terminalMode = 'NOTETITLE';
             displayCommand(command);
         }
         break;
+    
+    case 'notes delete':
+        if (!currentUser) {
+            displayOutput('Not logged in. Log in with <span class="command">user login</span> command to delete notes.');
+        } else {
+            terminalMode = 'NOTEDELETE1';
+            displayCommand(command);
+        }
+        break;
+
+    case 'notes list':
+        if (!currentUser) {
+            displayOutput('Not logged in. Log in with <span class="command">user login</span> command to view notes.');
+        } else {
+            displayCommand(command);
+            displayOutput(users[currentUser].notes.length > 0 ? 
+                users[currentUser].notes.map(
+                    note => `<span class='command'>${note.title}</span><br><span>${note.content}</span>`
+                ).join('<br>') : 'No notes found.');
+        }
+        break;
+    
+    case `user list`:
+        displayCommand(command);
+        displayOutput(Object.keys(users).length > 0 ?
+            Object.keys(users).map(username => `<span class='command'>${username}</span>`).join('<br>') : 'No users found.');
+        break;
+    
+    case `user delete`:
+        if (!currentUser) {
+            displayCommand(command);
+            terminalMode = 'DELETEUSER1';
+        } else {
+            displayOutput('You cannot delete a user while logged in. Log out with <span class="command">logout</span> command.');
+        }
+        break;
+        
     default:
         displayCommand(command)
     }
@@ -76,15 +131,17 @@ function keypressHandler(event) {
 
 // Search JSON file for commands depending on the input and display them using displayOutput
 function displayCommand(command) {
+    const commandRepeat = `<span class='command'>${command}: </span><br>`;
+
     // Check if the command is in the list of commands
-    if (commands.some(cmd => cmd.name === command)) {
+    if (commands.some(cmd => cmd.name === command)&&!currentUser) {
         const cmd = commands.find(cmd => cmd.name === command);
-        displayOutput(cmd.content);
+        displayOutput(commandRepeat + cmd.content);
     } 
     // Check for Usercommands
     else if (userCommands.some(cmd => cmd.name === command)) {
         const cmd = userCommands.find(cmd => cmd.name === command);
-        displayOutput(cmd.content);
+        displayOutput(commandRepeat + cmd.content);
     } 
     else {
         displayOutput(`Command not found: ${command}`);
@@ -101,7 +158,7 @@ function handleUserLogin(input){
         displayOutput('<span>Enter user password: </span>');
         } // if user is not found, reset mode and prompt user create command
         else{
-            displayOutput(`User '${input}' not found. Did you want to use <span>user create</span>?`);
+            displayOutput(`User '${input}' not found. Did you want to use <span class="command">user create</span>?`);
             terminalMode = null;
         
         }
@@ -114,11 +171,40 @@ function handleUserLogin(input){
             displayOutput(`Now logged into <span>${currentUser}!</span>`);
         } // if password is incorrect, allow a retry
         else {
-            displayOutput('Password incorrect. Try again.')
+            displayOutput('Password incorrect.  ')
         }
         
         terminalMode = null;
         tempLoginData = {};
+    }
+}
+
+function handleUserDelete(input){
+    if (terminalMode === 'DELETEUSER1'){
+        tempDeleteData.username = input;
+        displayOutput(`Are you sure you want to delete user '${tempDeleteData.username}'? (y/n)`);
+        terminalMode = 'DELETEUSER2';
+    } else if (terminalMode === 'DELETEUSER2'){
+        if (users[tempDeleteData.username] && input.toLowerCase() === 'y') {
+            terminalMode = 'DELETEUSER3';
+            displayOutput(`Enter password for user ${tempDeleteData.username}`)
+        } else if (input.toLowerCase() === 'n') {
+            displayOutput(`User deletion aborted.`);
+            terminalMode = null;
+        } else {
+            displayOutput(`User '${tempDeleteData.username}' not found.`);
+            terminalMode = null;
+        }
+    } else if (terminalMode === 'DELETEUSER3'){
+        if (users[tempDeleteData.password] === input){
+            delete users[tempDeleteData.username];
+            displayOutput(`User '${tempDeleteData.username}' deleted.`);
+            terminalMode = null;
+        } // if password is incorrect, allow a retry
+        else {
+            displayOutput('Password incorrect.')
+            terminalMode = null;
+        }
     }
 }
 
@@ -127,11 +213,11 @@ async function handleUserCreate(input){
     if (terminalMode === 'CREATE'){
         // checks if input already exists in users json, prompting user login or a different username
         if (users[input]){
-            displayOutput(`User ${input} already exists. Try user login or choosing a different username.`)
+            displayOutput(`User ${input} already exists. Try <span class="command">user login</span> or choosing a different username.`)
             terminalMode = null;
             return;
         } else if (input==="abort"){
-            displayOutput("User create command aborted.")
+            displayOutput("<span class='command'>user create</span> command aborted.")
             terminalMode = null;
             return;
         }
@@ -237,6 +323,33 @@ async function handleNoteCreate(input){
             console.log(err);
             displayOutput(`Server error.`)
         }
+
+        // reset modes after sending data to json
+        terminalMode = null;
+        tempCreateData = {};
+    }
+}
+
+async function handleNoteDelete(input){
+    if (terminalMode === 'NOTEDELETE1') {
+    tempNoteData.title = input;
+    terminalMode = 'NOTEDELETE2';
+    displayOutput(`Are you sure you want to delete note '${tempNoteData.title}'? (y/n)`);
+    return;
+    } else if (terminalMode === 'NOTEDELETE2') {
+        if (input.toLowerCase() === 'y') {
+            terminalMode = 'NOTEDELETE3';
+            displayOutput(`Note '${tempNoteData.title}' in user '${currentUser}' deleted.`);
+        } else {
+            displayOutput(`Note deletion aborted.`);
+            terminalMode = null;
+            tempNoteData = {};
+        }
+    } else if (terminalMode === 'NOTEDELETE3') {
+        tempNoteData.content = input;
+
+        delete users[currentUser].notes[tempNoteData.title];
+        displayOutput(`Note '${tempNoteData.title}' in user '${currentUser}' deleted.`);
 
         // reset modes after sending data to json
         terminalMode = null;
